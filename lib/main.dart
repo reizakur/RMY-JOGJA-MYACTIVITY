@@ -14,7 +14,6 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:uki_flutter/shopping.dart';
 import 'db.dart';
 
-
 void main() => runApp(const MyApp());
 
 class MyApp extends StatefulWidget {
@@ -25,24 +24,23 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-       builder: (context, child) => ResponsiveWrapper.builder(
-        child,
-        maxWidth: 1200,
-        minWidth: 480,
-        defaultScale: true,
-        breakpoints: [
-        ResponsiveBreakpoint.autoScale(600, name : PHONE),
-        ResponsiveBreakpoint.autoScale(800, name: TABLET),
-        ResponsiveBreakpoint.autoScale(600, name : DESKTOP),
-      ],
-    ),
+        builder: (context, child) => ResponsiveWrapper.builder(
+              child,
+              maxWidth: 1200,
+              minWidth: 480,
+              defaultScale: true,
+              breakpoints: [
+                ResponsiveBreakpoint.autoScale(600, name: PHONE),
+                ResponsiveBreakpoint.autoScale(800, name: TABLET),
+                ResponsiveBreakpoint.autoScale(600, name: DESKTOP),
+              ],
+            ),
         title: 'Tugas Flutter',
         debugShowCheckedModeBanner: false,
-        home:  RamayanaLogin());
+        home: RamayanaLogin());
   }
 }
 
@@ -72,3 +70,4 @@ class _MyAppState extends State<MyApp> {
 // }
 
 //test 17 oktober
+//masuk reza
