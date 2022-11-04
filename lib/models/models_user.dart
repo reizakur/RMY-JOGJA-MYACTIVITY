@@ -1,6 +1,4 @@
 class UserModel {
-  UserModel();
-  static UserModel currentUser = UserModel();
   UserModel.init() {
     this.nama_user = 'Coffe Name';
     // this.subdivisi = '';

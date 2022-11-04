@@ -9,7 +9,8 @@ class Harga extends StatefulWidget {
 }
 
 class _HargaState extends State<Harga> {
-  final List<Map<String, dynamic>> dataPrint = [
+
+   final List<Map<String, dynamic>> dataPrint = [
     {
       'title': 'Produk 1',
       'price': 10000,
@@ -31,20 +32,23 @@ class _HargaState extends State<Harga> {
   ];
 
   @override
+
   Widget build(BuildContext context) {
-    int _total = 0;
+     int _total = 0;
 
     for (var i = 0; i < dataPrint.length; i++) {
       _total += dataPrint[i]['total_price'] as int;
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text('Print Harga', style: TextStyle(fontSize: 23)),
+        title: Text('Print Harga'),
         backgroundColor: Color.fromARGB(255, 255, 17, 17),
-        elevation: 7.20,
-        toolbarHeight: 90,
-      ),
-      body: Column(
+        elevation: 7.20  ,
+          toolbarHeight: 75,
+        ),
+
+        body: 
+        Column(
         children: <Widget>[
           Expanded(
             child: ListView.builder(
@@ -52,8 +56,7 @@ class _HargaState extends State<Harga> {
               itemBuilder: (c, i) {
                 return ListTile(
                   title: Text(dataPrint[i]['title']),
-                  subtitle: Text(
-                      'Rp ${dataPrint[i]['price']} x ${dataPrint[i]['qty']}'),
+                  subtitle: Text('Rp ${dataPrint[i]['price']} x ${dataPrint[i]['qty']}'),
                   trailing: Text('Rp ${dataPrint[i]['total_price']}'),
                 );
               },
@@ -77,17 +80,17 @@ class _HargaState extends State<Harga> {
                   ],
                 ),
                 SizedBox(width: 20),
-                // Expanded(
-                //   child:  FlatButton(
-                //     color: Color.fromARGB(255, 255, 17, 17),
-                //     textColor: Colors.white,
-                //     child: Text('Print'),
-                //     onPressed: () {
-                //       Navigator.push(context,
-                //           MaterialPageRoute(builder: (_) => Print(dataPrint)));
-                //     },
-                //   ),
-                // )
+                Expanded(
+                  child: MaterialButton(
+                    color: Color.fromARGB(255, 255, 17, 17),
+                    textColor: Colors.white,
+                    child: Text('Print'),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => Print(dataPrint)));
+                    },
+                  ),
+                )
               ],
             ),
           )

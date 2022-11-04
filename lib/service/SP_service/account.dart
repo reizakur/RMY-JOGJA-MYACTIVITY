@@ -20,7 +20,7 @@ class UserData {
   static String _userPassword = '';
   static String _userPhone = '';
   static String _userPicUrl = '';
-  static String _userID = ''; 
+  static String _userID = '';
   bool getAdminStatus() {
     return _isAdmin;
   }
@@ -98,8 +98,8 @@ class UserData {
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setBool(UserData.logstatus, true);
     pref.setString(UserData.user_id_str, data['id_user']);
-    pref.setString(UserData.username_str, data['nama_user']);  
-    pref.setString(UserData.user_address_str, data['subdivisi']);    
+    pref.setString(UserData.username_str, data['nama_user']);
+    pref.setString(UserData.user_address_str, data['subdivisi']);
     if (data['akses'] == 'adm') {
       pref.setBool(UserData.isAdmin_str, true);
     } else {
@@ -119,8 +119,8 @@ class UserData {
     _userPassword = pref.getString(user_pass_str).toString();
     _userEmail = pref.getString(user_email_str).toString();
     _userPicUrl = pref.getString(user_picUrl_str).toString();
-    _userPhone = pref.getString(user_phone_str).toString();    
-    _userAdress = pref.getString(user_address_str).toString();    
+    _userPhone = pref.getString(user_phone_str).toString();
+    _userAdress = pref.getString(user_address_str).toString();
     if (pref.getBool(logstatus) == null || pref.getBool(logstatus) == false) {
       _statuslog = false;
     } else {

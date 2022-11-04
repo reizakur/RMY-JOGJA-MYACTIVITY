@@ -18,8 +18,6 @@ class Print extends StatefulWidget {
 
 class _PrintState extends State<Print> {
 
- 
-
   PrinterBluetoothManager _printerBluetoothManager = PrinterBluetoothManager();
 
   List<PrinterBluetooth>  _devices = [];
@@ -27,12 +25,8 @@ class _PrintState extends State<Print> {
     BluetoothManager bluetoothManager = BluetoothManager.instance;
       var total;
 
-
-
     @override
   void initState() {
-
-
         bluetoothManager.state.listen((val) {
         if (!mounted) return;
         if (val == 12) {
@@ -41,30 +35,18 @@ class _PrintState extends State<Print> {
         } else if (val == 10) {
           print('off');
            setState(() => _devicesMsg = 'Bluetooth Disconnect!');
-
         }
   });
-
-
-    //
     super.initState();
   }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Print', style: TextStyle(fontSize: 23)),
-        backgroundColor: Colors.red,
-        elevation: 7.20  ,
-          toolbarHeight: 90,
-          
+        title: Text ('Printer'),
+        backgroundColor: Colors.red
         ),
-
         body: 
         _devices.isEmpty ?  Center(child: Text(_devicesMsg ?? '' ),) :
 
@@ -94,7 +76,6 @@ class _PrintState extends State<Print> {
         setState(() => _devicesMsg = 'No Devices');
     });
   }
-
 
   Future<void> _startPrint(PrinterBluetooth printer) async {
     _printerBluetoothManager.selectPrinter(printer);
@@ -148,9 +129,7 @@ class _PrintState extends State<Print> {
     ticket.text('Thank You',styles: PosStyles(align: PosAlign.center, bold: true)
     );
 
-
     ticket.cut();
-
     return ticket;
   }
 
@@ -160,15 +139,8 @@ class _PrintState extends State<Print> {
   void dispose() {
     _printerBluetoothManager.stopScan();
     super.dispose();
-
-
-  
- 
-
-}
-
-
-}
+    }
+  }
   
 
 
