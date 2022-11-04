@@ -107,14 +107,10 @@ class UserData {
   Future<void> setUser({required Map data}) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setBool(UserData.logstatus, true);
-    pref.setString(
-        UserData.userIdStr, data['data']['user_id'] ?? 'No data avail');
-    pref.setString(
-        UserData.usernameStr, data['data']['username'] ?? 'No Data avail');
-    pref.setString(
-        UserData.userAddressStr, data['subdivisi'] ?? 'No Data avail');
-    pref.setString(
-        UserData.userTokenStr, data['access_token'] ?? 'No Data avail');
+    pref.setString(UserData.userIdStr, data['data']['user_id'].toString());
+    pref.setString(UserData.usernameStr, data['data']['username'].toString());
+    pref.setString(UserData.userAddressStr, data['subdivisi'].toString());
+    pref.setString(UserData.userTokenStr, data['access_token'].toString());
     // if (data['akses'] == 'adm') {
     //   pref.setBool(UserData.isAdmin_str, true);
     // } else {
