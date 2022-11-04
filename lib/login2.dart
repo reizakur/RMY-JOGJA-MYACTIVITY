@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:ffi';
 import 'dart:ui';
 import 'dart:convert';
@@ -27,28 +29,14 @@ class _RamayanaLogin2 extends State<RamayanaLogin2> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _user_name = '';
   String _password = '';
+  static UserData userData = UserData();
 
   loginPressed() async {
     if (_user_name.isNotEmpty && _password.isNotEmpty) {
       http.Response response = await AuthServices.login(_user_name, _password);
       Map responseMap = jsonDecode(response.body);
-      var temp = responseMap['data'];
-      temp = temp['username'];
-      print('tutut333');
-      print(temp);
-      print('UYUY 44');
-      print(responseMap['status']);
-      print('UYUY 55');
-
-      print(responseMap['username']);
-      print(response.statusCode);
       if (responseMap['status'] == 200) {
-        print('ioio 77');
-        print(responseMap);
-        print(responseMap['status']);
-        print('iniii 444');
-        print(responseMap['data']);
-
+        await userData.setUser(data: responseMap);
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -58,7 +46,7 @@ class _RamayanaLogin2 extends State<RamayanaLogin2> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (BuildContext context) => RamayanaLogin2(),
+              builder: (BuildContext context) => const RamayanaLogin2(),
             ));
 
         //mass
@@ -145,7 +133,7 @@ class _RamayanaLogin2 extends State<RamayanaLogin2> {
           children: <Widget>[
             Container(
               height: 1200,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 255, 255, 255),
               ),
             ),
@@ -153,7 +141,7 @@ class _RamayanaLogin2 extends State<RamayanaLogin2> {
               children: [
                 Container(
                   height: 400,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       gradient: LinearGradient(
                           begin: Alignment.centerRight,
                           end: Alignment.centerLeft,
@@ -168,7 +156,7 @@ class _RamayanaLogin2 extends State<RamayanaLogin2> {
                           bottomRight: Radius.zero,
                           topRight: Radius.zero)),
                   child: Container(
-                    margin: EdgeInsets.fromLTRB(20, 80, 20, 0),
+                    margin: const EdgeInsets.fromLTRB(20, 80, 20, 0),
                     height: 200,
                     width: 400,
                     // decoration: BoxDecoration(
@@ -187,7 +175,7 @@ class _RamayanaLogin2 extends State<RamayanaLogin2> {
                     ),
                   ),
                 ),
-                SizedBox(height: 60),
+                const SizedBox(height: 60),
                 Container(
                   margin: EdgeInsets.fromLTRB(sx(20), 0, sx(20), 0),
                   child: Form(
@@ -198,7 +186,8 @@ class _RamayanaLogin2 extends State<RamayanaLogin2> {
                           onChanged: (value) {
                             _user_name = value;
                           },
-                          style: TextStyle(color: Colors.black, fontSize: 25),
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 25),
                           validator:
                               RequiredValidator(errorText: "Wajib Diisi!"),
                           // validator: (value) {
@@ -209,18 +198,18 @@ class _RamayanaLogin2 extends State<RamayanaLogin2> {
                           // controller: controller_username,
                           keyboardType: TextInputType.multiline,
                           decoration: InputDecoration(
-                              errorStyle: TextStyle(color: Colors.black),
-                              labelStyle: TextStyle(color: Colors.black),
-                              prefixIcon: Icon(
+                              errorStyle: const TextStyle(color: Colors.black),
+                              labelStyle: const TextStyle(color: Colors.black),
+                              prefixIcon: const Icon(
                                 Icons.person,
                                 color: Colors.black,
                               ),
                               hintText: 'Username',
-                              hintStyle: TextStyle(color: Colors.black),
+                              hintStyle: const TextStyle(color: Colors.black),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10))),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         TextFormField(
                           // validator: RequiredValidator(errorText: "Wajib Diisi!"),
                           // validator: (value) {
@@ -234,23 +223,24 @@ class _RamayanaLogin2 extends State<RamayanaLogin2> {
                           obscureText: true,
                           // controller: controller_password,
                           keyboardType: TextInputType.multiline,
-                          style: TextStyle(color: Colors.black, fontSize: 25),
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 25),
                           decoration: InputDecoration(
-                              errorStyle: TextStyle(color: Colors.black),
-                              labelStyle: TextStyle(color: Colors.black),
-                              prefixIcon: Icon(
+                              errorStyle: const TextStyle(color: Colors.black),
+                              labelStyle: const TextStyle(color: Colors.black),
+                              prefixIcon: const Icon(
                                 Icons.lock,
                                 color: Colors.black,
                               ),
                               hintText: 'Password',
-                              hintStyle: TextStyle(color: Colors.black),
+                              hintStyle: const TextStyle(color: Colors.black),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10))),
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         TextButton(
                           onPressed: () {},
-                          child: Text(
+                          child: const Text(
                             'Forgot Pasword ?',
                             style: TextStyle(
                               fontSize: 18,
@@ -261,11 +251,11 @@ class _RamayanaLogin2 extends State<RamayanaLogin2> {
                         MaterialButton(
                           height: 50,
                           minWidth: 200,
-                          padding: EdgeInsets.symmetric(),
+                          padding: const EdgeInsets.symmetric(),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
                           ),
-                          child: Text(
+                          child: const Text(
                             'Sign In',
                             style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
@@ -303,15 +293,15 @@ class _RamayanaLogin2 extends State<RamayanaLogin2> {
                           //   });
                           // },
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         Container(
                             margin: EdgeInsets.only(left: sx(195), top: sy(30)),
                             child: Row(
                               children: [
-                                Text('Belum Punya Akun?',
+                                const Text('Belum Punya Akun?',
                                     style: TextStyle(fontSize: 18)),
                                 TextButton(
-                                    child: Text(
+                                    child: const Text(
                                       'Daftar',
                                       style: TextStyle(
                                           //color: Colors.blue
