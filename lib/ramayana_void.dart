@@ -1,273 +1,339 @@
+import 'package:barcode_flutter/barcode_flutter.dart';
+import 'package:expandable_bottom_bar/expandable_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:myactivity_project/ramayana_home.dart';
+import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:uki_flutter/ramayana_print.dart';
-import 'package:uki_flutter/ramayana_print_%20harga.dart';
-import 'package:uki_flutter/service/SP_service/SP_service.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:pretty_qr_code/pretty_qr_code.dart';
+import 'package:relative_scale/relative_scale.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+import 'package:tbib_splash_screen/splash_screen_view.dart';
+import 'package:form_field_validator/form_field_validator.dart';  
 
-class Void extends StatefulWidget {
-  const Void({super.key});
+
+class Blank extends StatefulWidget {
+    static const routeName = '/blank';
+  const Blank({super.key});
 
   @override
-  State<Void> createState() => _VoidState();
+  State<Blank> createState() => _BlankState();
 }
 
-class _VoidState extends State<Void> {
-  // final List<Map<String, dynamic>> dataPrint = [
-  //   {
-  //     'title': 'Produk 1',
-  //     'price': 10000,
-  //     'qty': 2,
-  //     'total_price': 20000,
-  //   },
-  //   {
-  //     'title': 'Produk 2',
-  //     'price': 20000,
-  //     'qty': 2,
-  //     'total_price': 40000,
-  //   },
-  //   {
-  //     'title': 'Produk 3',
-  //     'price': 12000,
-  //     'qty': 1,
-  //     'total_price': 12000,
-  //   },
-  // ];
+class _BlankState extends State<Blank> with RouteAware {
 
-  TextEditingController _editingController = TextEditingController(text: '');
-  String data = '';
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
-  Widget build(BuildContext context) {
-    //  int _total = 0;
-
-    // for (var i = 0; i < data.length; i++) {
-    //   _total += dataPrint[i]['total_price'] as int;
-    // }
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Void', style: TextStyle(fontSize: 23)),
-        backgroundColor: const Color.fromARGB(255, 255, 17, 17),
-        elevation: 7.20,
-        toolbarHeight: 90,
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const Harga();
-              }));
-            },
-            icon: const Icon(
-              Icons.print,
-              size: 30,
-            ),
-          )
-        ],
-      ),
-      body: Stack(children: <Widget>[
-        Container(
-            margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-            color: const Color.fromARGB(255, 253, 249, 249)),
-        Container(
-          margin: const EdgeInsets.fromLTRB(10, 20, 10, 0),
-          width: 500,
-          height: 50,
-          color: const Color.fromARGB(255, 239, 237, 237),
-        ),
-        Container(
-          margin: const EdgeInsets.fromLTRB(30, 30, 30, 0),
-          child: const Text(
-            'Form Void',
-            style: TextStyle(
-                fontWeight: FontWeight.w800, fontSize: 23, color: Colors.black),
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.fromLTRB(30, 90, 30, 0),
-          child: ListView(
-            children: <Widget>[
-              const Text(
-                'Code',
-                style: TextStyle(
-                    color: Color.fromARGB(255, 255, 17, 17),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 17),
-              ),
-              TextField(
-                cursorColor: Colors.black,
-                decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.all(10),
-                    labelStyle: const TextStyle(color: Colors.black),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: new BorderSide(color: Colors.black),
-                    )),
-                controller: _editingController,
-              ),
-              const SizedBox(
-                height: 20,
-                width: 20,
-              ),
-            ],
-          ),
-        ),
-        Container(
-            color: const Color.fromARGB(255, 255, 17, 17),
-            margin: const EdgeInsets.only(top: 180),
-            height: 60,
-            child: Container(
-              margin: const EdgeInsets.only(right: 7),
-              width: 500,
-              child: TextButton(
-                child: const Text(
-                  'GENERATE',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 20,
-                      color: Colors.white),
-                ),
-                onPressed: () async {
-                  data = await _getEncryptNumber();
-                  setState(() {});
-                },
-              ),
-            )),
-        Container(
-          color: const Color.fromARGB(255, 239, 237, 237),
-          width: 500,
-          height: 50,
-          margin: const EdgeInsets.fromLTRB(10, 260, 10, 0),
-          child: TextButton(
-            onPressed: () {},
-            child: const Text(
-              'Scan Barcode',
-              style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 24,
-                  color: Colors.black),
-            ),
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.fromLTRB(30, 350, 30, 0),
-          child: ListView(
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.fromLTRB(100, 0, 100, 0),
-                child: QrImage(
-                  data: '$data',
-                  version: QrVersions.auto,
-                  size: 220.0,
-                ),
-              ),
-
-              //            Column(
-              //   children: <Widget>[
-              //     Expanded(
-              //       child: ListView.builder(
-              //         itemCount: data.length,
-              //         itemBuilder: (c, i) {
-              //           return ListTile(
-              //             title: Text(dataPrint[i]['title']),
-              //             subtitle: Text('Rp ${dataPrint[i]['price']} x ${dataPrint[i]['qty']}'),
-              //             trailing: Text('Rp ${dataPrint[i]['total_price']}'),
-              //           );
-              //         },
-              //       ),
-              //     ),
-              //     Container(
-              //       color: Colors.grey[200],
-              //       padding: EdgeInsets.all(20),
-              //       child: Row(
-              //         children: <Widget>[
-              //           Column(
-              //             children: <Widget>[
-              //               Text(
-              //                 'Total :',
-              //                 style: TextStyle(fontWeight: FontWeight.bold),
-              //               ),
-              //               Text(
-              //                 'Rp $_total :',
-              //                 style: TextStyle(fontWeight: FontWeight.bold),
-              //               )
-              //             ],
-              //           ),
-              //           SizedBox(width: 20),
-              //           Expanded(
-              //             child: FlatButton(
-              //               color: Theme.of(context).primaryColor,
-              //               textColor: Colors.white,
-              //               child: Text('Print'),
-              //               onPressed: () {
-              //                 Navigator.push(context,
-              //                     MaterialPageRoute(builder: (_) => Print(dataPrint)));
-              //               },
-              //             ),
-              //           )
-              //         ],
-              //       ),
-              //     )
-              //   ],
-              // ),
-            ],
-          ),
-        )
-      ]),
-    );
+  void initState() {
+    super.initState();
   }
 
-  Future<String> _getEncryptNumber() async {
+  TextEditingController myController = TextEditingController();
+
+  String _scanBarcode = '';
+  bool _visible = false;
+
+  Future<void> startBarcodeScanStream2() async {
+    FlutterBarcodeScanner.getBarcodeStreamReceiver(
+            '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
+        .listen((barcode) => print(barcode));
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> scanBarcode() async {
+    String barcodeScanRes;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+        '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+      print(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _scanBarcode = barcodeScanRes;
+     
+    });
+  }
+
+  Future<String> _getLogikaVoid() async {
+    // user id
     UserData userData = UserData();
     await userData.getPref();
-    String userId = userData.getUserID();
-    String? inputNumber = _editingController.text;
-    late int encryptNumber;
-    late int encryptNumber2;
+    String userId = userData.getUsernameID();
+    String? randomAngka = myController.text;
+    print('grgr 123');
+    print(userId);
+    
+    late int numberStepOne;
+    late int numberStepTwo;
 
     late String result;
 
-    if (inputNumber != null && userId != null) {
-      encryptNumber = _stepOne(input: inputNumber);
-      encryptNumber2 = _stepTwo(input: encryptNumber);
-      result = _stepThree(
-          masukan_kedua: encryptNumber2.toString(), masukan_satu: userId);
-      print('Hasil : ${result}');
+    if (randomAngka != null && userId != null) {
+    numberStepOne = stepOne(input: randomAngka);
+    numberStepTwo = stepTwo(input: numberStepOne);
+    result = stepThree(
+      angkaKedua: numberStepTwo.toString(), angkaPertama: userId);
+    print('Hasil : ${result}');
+  }
+  return result;
+}
+
+  int stepOne({required String input}) {
+  int current = 1;
+  for (int i = 0; i < input.length; i++) {
+    print('Check number :${input[i]} at index $i');
+    if (input[i] == '0') {
+      print('catch 1');
+      print('current = $current * ${i + 1}');
+      current = current * (i + 1);
+      print('coba current if');
+      print(current);
+    } else {
+      print('catch 2');
+      print('current = $current * ${int.parse(input[i])}');
+      current = current * int.parse(input[i]);
+      print('coba current else');
+      print(current);
     }
-    return result;
+    print('current val is $current');
   }
+  return current;
+}
 
-  int _stepOne({required String input}) {
-    int current = 1;
-    for (int i = 0; i < input.length; i++) {
-      // print('Check number :${input[i]} at index $i');
-      if (input[i] == '0') {
-        // print('catch 1');
-        // print('current = $current * ${i + 1}');
-        current = current * i + 1;
-      } else {
-        // print('catch 2');
-        // print('current = $current * ${int.parse(input[i])}');
-        current = current * int.parse(input[i]);
-      }
-      // print('current val is $current');
-    }
-    return current;
+int stepTwo({required int input}) {
+  print('coba hasil input');
+  print(input);
+  return (input * 121) - 100;
+}
+
+String stepThree({required String angkaPertama, required String angkaKedua}) {
+  int prefixNumber = 0;
+  int postNumber = 0;
+  if (angkaPertama.length >= 3) {
+    prefixNumber = int.parse(angkaPertama.substring(0, 3)) + 13;
+    postNumber = int.parse(angkaPertama.substring(3, angkaPertama.length)) + 18;
   }
+   else if (angkaPertama.length > 0) {
+    prefixNumber = 
+      int.parse(angkaPertama.substring(0, angkaPertama.length)) + 13;
+  } 
+  else {}
+  return '${prefixNumber}X${angkaKedua}B${postNumber}';
+}
+  
+  String data = '';
 
-  int _stepTwo({required int input}) {
-    return (input * 121) - 100;
+  @override
+  Widget build(BuildContext context) {
+    return RelativeBuilder(builder: (context, height, width, sy, sx) {
+    return Scaffold(
+      appBar: AppBar(
+         leading: 
+         IconButton(onPressed: () {
+           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => DefaultBottomBarController(child: Ramayana()),), (Route<dynamic> route) => false);
+         },
+        icon: Icon(Icons.arrow_back, size: 30,),),
+        title: Text('Void', style: TextStyle(fontSize: 23)),
+        backgroundColor: Color.fromARGB(255, 255, 17, 17),
+        elevation: 7.20  ,
+        toolbarHeight: 90,
+        ),
+
+      body: 
+      
+      ListView(
+        children: [
+          Stack(
+              children: <Widget>[
+
+                Container(
+                  margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  color: Color.fromARGB(255, 253, 249, 249)
+                ),
+
+                Container(
+                  width: 500,
+                  height: 170,
+                  color: Color.fromARGB(255, 255, 17, 17),
+                ),
+                
+                Container(
+                margin: EdgeInsets.fromLTRB(30, 30,30, 0),
+                child:
+                  Text(
+                  'Form Void', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 23, color: Colors.white),
+                   ),
+                  ),
+
+                Container(
+                  margin: EdgeInsets.fromLTRB(10, 100, 10, 0),  
+                  height: 200,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    boxShadow: [BoxShadow( 
+                    blurRadius: 5
+                    )]
+                    ),
+              ),
+                  
+                SizedBox(
+                height: 30,
+                width: 30,
+                ),
+                        
+                Container(
+                  margin: EdgeInsets.fromLTRB(30, 130, 30, 0),
+                  child:
+
+                    Form(
+                      key: _formKey,
+                        child: 
+
+                        TextFormField(
+                          controller: myController,
+                          style: TextStyle(fontSize: 20, color: Colors.black),
+                          validator: (value) {
+                          if(value!.isEmpty){
+                          return "Required";
+                         }
+                        },
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                          decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                            color: Colors.black, 
+                            width: 5.0),
+                            borderRadius: BorderRadius.circular(25)
+                           ),
+                          errorBorder: OutlineInputBorder( 
+                            borderSide: BorderSide(color: Color.fromARGB(255, 255, 17, 17),), borderRadius: BorderRadius.circular(25)),
+                          errorStyle: TextStyle(color: Color.fromARGB(255, 255, 17, 17), fontSize: 14, fontWeight: FontWeight.w400),
+                          labelStyle: TextStyle(
+                           color: Colors.black87
+                            ),
+                          prefixIcon: Icon(
+                           Icons.keyboard,
+                           color: Color.fromARGB(255, 255, 17, 17),
+                           size: 30,
+                          ),
+                          hintStyle: TextStyle(
+                           color:  Colors.black,
+                           fontSize: 20
+                           ),
+                          enabledBorder: OutlineInputBorder(borderSide: new BorderSide(color: Colors.black),borderRadius: BorderRadius.circular(25)),
+                          focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                          borderSide: new BorderSide(color: Colors.black),
+                          )
+                          )      
+                        )
+                    )
+                  ),
+
+                  Container(
+                    margin: EdgeInsets.fromLTRB(160, 230, 160, 0),
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 255, 17, 17),
+                      borderRadius: BorderRadius.circular(30)
+                      ),
+                      height: 40,
+                      child: 
+                        Container(
+                          margin: EdgeInsets.only(right: 7),
+                          width: 150,
+                          child: 
+                          TextButton(
+                            child: 
+                             Text(
+                            'GENERATE', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color: Colors.white),
+                             ),
+                            onPressed: () async {
+                               if (_formKey.currentState!.validate()) {
+                                data = await _getLogikaVoid(); 
+                                setState(() {   
+                               _visible = true;
+                                });
+                               }
+                              },
+                            ),
+                          )
+                          ),
+                   
+                  Container(
+                   margin: EdgeInsets.fromLTRB(10, 350, 10, 0),
+                   child: AnimatedOpacity(
+                   opacity: _visible ? 1.0 : 0.0,
+                   duration: const Duration(milliseconds: 500),
+                   child: Container(
+                       margin: EdgeInsets.fromLTRB(10, 0,10, 0),
+                        child: 
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+
+                              Container(
+                                margin: EdgeInsets.fromLTRB(10, 0,10, 0),
+                                   child: 
+                                    Center(
+                                      child: 
+                                      BarCodeImage(
+                                        backgroundColor: Colors.white,
+                                        params: Code128BarCodeParams(
+                                        "${data}",
+                                        lineWidth: 1.5,                // width for a single black/white bar (default: 2.0)
+                                        barHeight: 100,               // height for the entire widget (default: 100.0)
+                                        withText: false,                // Render with text label or not (default: false)
+                                       ),
+                                      padding: EdgeInsets.only(bottom: 7),
+                                      onError: (error) {               // Error handler
+                                        print('error = $error');
+                                      },
+                                  ),
+                                 )
+                              ),
+                           
+                  Container(
+                    margin: EdgeInsets.fromLTRB(100,30, 100, 0),
+                    child: 
+                    PrettyQr(
+                      image: AssetImage('assets/ramayana(C).png'),
+                      size: 200,
+                      data: '$data',
+                      errorCorrectLevel: QrErrorCorrectLevel.M,
+                      typeNumber: 7,
+                      roundEdges: false,
+                    ),
+                    )
+                 ],
+                ),
+                )
+                ),
+              )
+            ]
+            ),
+        ],
+      ),
+    );
   }
-
-  String _stepThree(
-      {required String masukan_satu, required String masukan_kedua}) {
-    int prefixNumber = 0;
-    int postNumber = 0;
-    if (masukan_satu.length >= 3) {
-      prefixNumber = int.parse(masukan_satu.substring(0, 3)) + 13;
-      postNumber =
-          int.parse(masukan_satu.substring(3, masukan_satu.length)) + 18;
-    } else if (masukan_satu.length > 0) {
-      prefixNumber =
-          int.parse(masukan_satu.substring(0, masukan_satu.length)) + 13;
-    } else {}
-    return '${prefixNumber}X${masukan_kedua}B$postNumber';
+    );
   }
 }
+
+
+
+
+

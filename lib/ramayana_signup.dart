@@ -1,10 +1,11 @@
+import 'dart:convert';
 import 'package:dio/dio.dart';
-// import 'package:passwordfield/passwordfield.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:uki_flutter/ramayana_home.dart';
-import 'package:uki_flutter/ramayana_login.dart';
-import 'package:form_field_validator/form_field_validator.dart';  
+import 'package:myactivity_project/ramayana_home.dart';
+import 'package:myactivity_project/ramayana_login.dart';
+// import 'package:form_field_validator/form_field_validator.dart';  
 
 class RamayanaSignup extends StatefulWidget {
   @override
@@ -12,10 +13,32 @@ class RamayanaSignup extends StatefulWidget {
 }
 
 class _RamayanaSignup extends State<RamayanaSignup> {
-   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final controller_nama_user = TextEditingController();
-  final controller_password = TextEditingController();
-  final controller_subdivisi = TextEditingController();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final controller_username = TextEditingController();
+  final controller_email = TextEditingController();
+  final controller_nomor = TextEditingController();
+
+  Future sendEmail() async{
+    final url = Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
+    const serviceId = "service_cfnvq19";
+    const templateId = "template_1537ydx";
+    const userId = "HgM5nYzs8tKFD0136";
+    final response = await http.post(url,
+    headers: {'Content-Type': 'application/json', 'origin': 'http://localhost'},
+    body: json.encode({
+      'service_id': serviceId,
+      'template_id': templateId,
+      'user_id': userId,
+      'template_params': {
+        'name': controller_username.text,
+        'email': controller_email.text,
+        'nomor': controller_nomor.text,
+      }
+    })
+    );
+    return response.statusCode;
+  }
 
   var dio = Dio();
   late Size ukuranlayar;
@@ -27,10 +50,13 @@ class _RamayanaSignup extends State<RamayanaSignup> {
       body: Stack(
         children: <Widget>[
           Container(
-            // height: 900,
-            decoration: BoxDecoration(
-              color: Color.fromARGB(255, 168, 3, 3),
-            ),
+            width: 1000,
+            height: 2000,
+            color: Colors.green,
+            child: Image.asset(
+             "assets/rmy.jpeg",
+              fit: BoxFit.cover,   
+            )
           ),
 
           ListView(
@@ -39,12 +65,7 @@ class _RamayanaSignup extends State<RamayanaSignup> {
                 margin: EdgeInsets.fromLTRB(20, 120, 20, 0),
                 height: 200,
                 width: 400,
-                // decoration: BoxDecoration(
-                //   // color: Color.fromARGB(255, 230, 230, 230),
-                //   borderRadius: BorderRadius.circular(10),
-                // //),
                 child:
-                
                  Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,12 +84,12 @@ class _RamayanaSignup extends State<RamayanaSignup> {
                 Form(
                   key: _formKey,
                   child: 
-                 Column(
-                  children: <Widget>[
-                   TextFormField(
-                  cursorColor: Colors.white,
-                      controller: controller_nama_user,
-                      validator: RequiredValidator(errorText: "Please Enter"),
+                    Column(
+                      children: <Widget>[
+
+                      TextFormField(
+                      cursorColor: Colors.white,
+                      controller: controller_username,
                       keyboardType: TextInputType.multiline,
                       style: TextStyle(fontSize: 20, color: Colors.white),
                       decoration: InputDecoration(
@@ -77,61 +98,28 @@ class _RamayanaSignup extends State<RamayanaSignup> {
                       labelStyle: TextStyle(
                       color: Colors.white
                         ),
-
-                        prefixIcon: Icon(
-                          Icons.person,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                        hintText: 'Username', 
-                        hintStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20
-                        ),
-                        enabledBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.white)),
-                        focusedBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                            )
+                      prefixIcon: Icon(
+                        Icons.person,
+                        color: Colors.white,
+                         size: 30,
+                      ),
+                      hintText: 'Username', 
+                      hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20
+                      ),
+                      enabledBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.white)),
+                      focusedBorder: UnderlineInputBorder(
+                      borderSide: new BorderSide(color: Colors.white),
+                      )
                       ),
                     ),
+
                     SizedBox(height: 30),
 
-                    TextFormField(
-                      controller: controller_password,
+                      TextFormField(
                       cursorColor: Colors.white,
-                     validator: RequiredValidator(errorText: "Please Enter"),
-                      obscureText: true,
-                      keyboardType: TextInputType.multiline,
-                      decoration: InputDecoration(
-                        errorBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.white)),
-                        errorStyle: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
-                        labelStyle: TextStyle(
-                            color: Colors.white
-                        ),
-                        prefixIcon: Icon(
-                          Icons.lock,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                         hintText: 'Password', 
-                        hintStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20
-                        ),
-                        enabledBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.white)),
-                        focusedBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                            )
-                      ),
-                    ),
-                    SizedBox(height: 30),
-
-                    TextFormField(
-                      controller: controller_subdivisi,
-                      cursorColor: Colors.white,
-                     validator: RequiredValidator(errorText: "Please Enter"),
-                     
-                      obscureText: true,
+                      controller: controller_email,
                       keyboardType: TextInputType.multiline,
                       style: TextStyle(fontSize: 20, color: Colors.white),
                       decoration: InputDecoration(
@@ -140,70 +128,89 @@ class _RamayanaSignup extends State<RamayanaSignup> {
                       labelStyle: TextStyle(
                       color: Colors.white
                         ),
-
-                        prefixIcon: Icon(
+                      prefixIcon: Icon(
                           Icons.person,
                           color: Colors.white,
                           size: 30,
                         ),
-                        hintText: 'Subdivisi', 
+                        hintText: 'Email', 
                         hintStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20
+                        color: Colors.white,
+                        fontSize: 20
                         ),
                         enabledBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.white)),
-
                         focusedBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                            )
-                      ),
-                    ),
-                    SizedBox(height: 40),
+                          borderSide: new BorderSide(color: Colors.white),
+                          )
+                          ),
+                          ),
+                        
+                        SizedBox(height: 30),
 
-                    MaterialButton(
-                      padding: EdgeInsets.symmetric(horizontal: 30),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: Text(
-                        'Sign Up',
-                        style: TextStyle(
-                          fontSize: 17,
+                        TextFormField(
+                          controller: controller_nomor,
+                          cursorColor: Colors.white,
+                          keyboardType: TextInputType.multiline,
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                          decoration: InputDecoration(
+                          errorBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.white)),
+                          errorStyle: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+                          labelStyle: TextStyle(
+                          color: Colors.white
+                        ) ,
+                          prefixIcon: Icon(
+                          Icons.person,
                           color: Colors.white,
-                        ),
-                      ),
-                      color: Colors.red,
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: Colors.white,
-                            content: Text(
-                              'Validation Successful',
-                              style: TextStyle(
-                                  color: Colors.black,
-                              ),
+                          size: 30,
+                          ),
+                          hintText: 'No.Handphone', 
+                          hintStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20
+                          ),
+                          enabledBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.white)),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: new BorderSide(color: Colors.white),
+                            )
                             ),
                           ),
-                      );
-                        DateTime now = new DateTime.now();
-                        //var _image;
-                        var formData = FormData.fromMap({
-                          'nama_user': controller_nama_user.text,
-                          'password': controller_password.text,
-                          'subdivisi': controller_subdivisi.text,
 
-                        });
-                        var response = await dio.post(
-                            'http://ramayana.joeloecs.com/mobileapi/tambah_user.php',
-                            data: formData
-                        );
-                        print('Berhasil, ${controller_nama_user.text}, ${controller_password.text}, ${controller_subdivisi.text}');
+                          SizedBox(height: 40),
+
+                          MaterialButton(
+                          padding: EdgeInsets.symmetric(horizontal: 30),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          child: Text(
+                          'Sign Up',
+                          style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.white,
+                          ),
+                        ),
+                          color: Colors.red,
+                          onPressed: () async {
+                            sendEmail();
+                            if (_formKey.currentState!.validate()) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.white,
+                                content: Text(
+                                  'Coba Cek Email Anda',
+                                  style: TextStyle(
+                                  color: Colors.black,
+                                ),
+                             ),
+                            ),
+                          );
+                        DateTime now = new DateTime.now();
+                        print('Berhasil, ${controller_username.text}, ${controller_email.text}, ${controller_nomor.text}');
                         Navigator.push(context,
-                            MaterialPageRoute(
-                                builder: (context) {
-                                  return RamayanaLogin();
-                                } ));
+                          MaterialPageRoute(
+                          builder: (context) {
+                          return RamayanaLogin();
+                          } ));
                       };
                       }
                     ),

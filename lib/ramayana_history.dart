@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:uki_flutter/models/models_act.dart';
+import 'package:myactivity_project/models/models_act.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
-import 'package:uki_flutter/ramayana_activity.dart';
-import 'package:uki_flutter/ramayana_home.dart';
-import 'package:uki_flutter/user.dart';
+import 'package:myactivity_project/ramayana_activity.dart';
+import 'package:myactivity_project/ramayana_home.dart';
+import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RamayanaHistory extends StatefulWidget {
@@ -16,31 +16,38 @@ class RamayanaHistory extends StatefulWidget {
 }
 
 class _RamayanaHistoryState extends State<RamayanaHistory> {
+
+  UserData userData = UserData();
+
   void fetchProduk() async {
     AktivitasModel.aktivitaslist.clear();
     final responseku = await http.post(
-        Uri.parse('http://ramayana.joeloecs.com/mobileapi/fetch_data_act.php'),
+      Uri.parse('http://ramayana.joeloecs.com/mobileapi/fetch_data_act.php'),
         body: {
           "id_act": 'nothing',
         });
+
     var data = jsonDecode(responseku.body);
     if (data[0]['result'] == '1') {
       int count = data[1].length;
       for (int i = 0; i < count; i++) {
         AktivitasModel.aktivitaslist.add(AktivitasModel.fromjson(data[1][i]));
       }
+
       print('check length ${AktivitasModel.aktivitaslist.length}');
       print(data[1].toString());
+
     } else {
       print('NO DATA');
     }
+
     setState(() {});
   }
 
   void deleteProduk(id_act) async {
     AktivitasModel.aktivitaslist.clear();
     final responseku = await http.post(
-        Uri.parse('http://ramayana.joeloecs.com/mobileapi/deleted_data_act.php'),
+      Uri.parse('http://ramayana.joeloecs.com/mobileapi/deleted_data_act.php'),
         body: {
           "id_act": id_act,
         });
@@ -50,8 +57,7 @@ class _RamayanaHistoryState extends State<RamayanaHistory> {
       setState(() {
         fetchProduk();
       });
-
-      print('check length ${AktivitasModel.aktivitaslist.length}');
+    print('check length ${AktivitasModel.aktivitaslist.length}');
     } else {
       print('NO DATA');
     }
@@ -66,6 +72,7 @@ class _RamayanaHistoryState extends State<RamayanaHistory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         title: TextField(
           decoration: InputDecoration(
@@ -87,21 +94,17 @@ class _RamayanaHistoryState extends State<RamayanaHistory> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.filter_1),
-            onPressed: () {
-              // Navigator.push(context, MaterialPageRoute(builder: (context){
-              //   return History1();
-              // }));
-            },
+            onPressed: () {},
           ),
         ],
-         
       ),
 
-      body: Stack(children: <Widget>[
+      body: Stack(
+        children: <Widget>[
+
         Container(
           margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
             height: 150,
-            // width: 500,
             decoration: BoxDecoration(
               color: Color.fromARGB(255, 232, 15, 15),
               boxShadow: [
@@ -115,30 +118,33 @@ class _RamayanaHistoryState extends State<RamayanaHistory> {
         ),
 
         Container(
-            margin: EdgeInsets.only(left: 10, top: 20),
+          margin: EdgeInsets.only(left: 10, top: 20),
             child: Text('List Activity',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.w700)
+              style: TextStyle(
+              color: Colors.white,
+              fontSize: 25,
+              fontWeight: FontWeight.w700)
             ),
         ),
 
         Container(
-            margin: EdgeInsets.only(left: 230, top: 90),
-            child: Text('Adhelia Putri Wardhana',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500)
+          margin: EdgeInsets.only(right: 0, top: 70, left: 10),
+            child: 
+            ListTile(
+              trailing: Text('${userData.getFullname()} ${userData.getUsernameID()}',
+               style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.w500)
+              )
             )
         ),
 
         Container(
           margin: EdgeInsets.fromLTRB(0, 120, 0, 0),
           height: 70,
-
-          decoration: BoxDecoration(
+          decoration: 
+          BoxDecoration(
             color: Colors.white,
             boxShadow: [
               BoxShadow(color: Colors.black12, spreadRadius: 5, blurRadius: 15)
@@ -170,7 +176,6 @@ class _RamayanaHistoryState extends State<RamayanaHistory> {
               BoxShadow(color: Colors.black12, spreadRadius: 3, blurRadius: 5)
             ],
           ),
-            
             child: ListView(
               children: AktivitasModel.aktivitaslist.map((e) {
                 print('nama user ${e.fullname}');
@@ -183,7 +188,6 @@ class _RamayanaHistoryState extends State<RamayanaHistory> {
                       deleteProduk(e.id_act);
                       fetchProduk();
                       setState(() {
-
                       });
                     },
                   ),
@@ -193,6 +197,7 @@ class _RamayanaHistoryState extends State<RamayanaHistory> {
               }).toList(),
             ))
       ]),
+      
       floatingActionButton: FloatingActionButton(
           backgroundColor: Color.fromARGB(255, 255, 17, 17),
           child: Icon(Icons.add),
