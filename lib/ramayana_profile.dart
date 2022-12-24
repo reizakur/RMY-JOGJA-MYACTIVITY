@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -98,13 +99,13 @@ class _ProfileeState extends State<Profilee> {
         )),
   );
 
-  XFile? image;
+  File? image;
 
   final ImagePicker picker = ImagePicker();
 
   //we can upload image from camera or from gallery based on parameter
   Future getImage(ImageSource media) async {
-    var img = await picker.pickImage(source: media);
+    var img = await ImagePicker.pickImage(source: media);
     setState(() {
       image = img;
     });

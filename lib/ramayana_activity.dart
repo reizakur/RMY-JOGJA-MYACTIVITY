@@ -40,13 +40,13 @@ class _ActivityState extends State<Activity> {
   ];
 
   //upload imagee
-   XFile? image;
+  File? image;
 
   final ImagePicker picker = ImagePicker();
 
   //we can upload image from camera or from gallery based on parameter
   Future getImage(ImageSource media) async {
-    var img = await picker.pickImage(source: media);
+    var img = await ImagePicker.pickImage(source: media);
      setState(() {
       image = image;
     });
