@@ -14,29 +14,28 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'database/database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+//rheiza 24 Desember 2022
 
-void main() async { 
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs =await SharedPreferences.getInstance();
-  var username =prefs.getString("username");
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var username = prefs.getString("username");
   print(username);
   runApp(MaterialApp(
-     builder: (context, child) => ResponsiveWrapper.builder(
-        child,
-        maxWidth: 1200,
-        minWidth: 480,
-        defaultScale: true,
-        breakpoints: [
-          ResponsiveBreakpoint.autoScale(600, name : PHONE),
-          ResponsiveBreakpoint.autoScale(800, name: TABLET),
-          ResponsiveBreakpoint.autoScale(1200, name : DESKTOP),
-      ],
-    ),
-    title: 'rals-tools',
-    debugShowCheckedModeBanner: false,
-    home: DefaultBottomBarController(child: Ramayana())
-    // username == null ? SplashScreenRamayana() : DefaultBottomBarController(child: Ramayana()),
-    ));
-   }
-
-
+      builder: (context, child) => ResponsiveWrapper.builder(
+            child,
+            maxWidth: 1200,
+            minWidth: 480,
+            defaultScale: true,
+            breakpoints: [
+              ResponsiveBreakpoint.autoScale(600, name: PHONE),
+              ResponsiveBreakpoint.autoScale(800, name: TABLET),
+              ResponsiveBreakpoint.autoScale(1200, name: DESKTOP),
+            ],
+          ),
+      title: 'rals-tools',
+      debugShowCheckedModeBanner: false,
+      home: DefaultBottomBarController(child: Ramayana())
+      // username == null ? SplashScreenRamayana() : DefaultBottomBarController(child: Ramayana()),
+      ));
+}
